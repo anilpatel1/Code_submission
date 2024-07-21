@@ -1,0 +1,27 @@
+class Solution {
+public:
+    bool isIsomorphic(string s, string t) {
+        if (s.length() != t.length()) {
+        return false;
+    }
+    vector<int> map_s_to_t(256, -1);
+    vector<int> map_t_to_s(256, -1);
+
+    for (size_t i = 0; i < s.length(); ++i) {
+        char s_char = s[i];
+        char t_char = t[i];
+        if (map_s_to_t[s_char] == -1) {
+            map_s_to_t[s_char] = t_char;
+        } else if (map_s_to_t[s_char] != t_char) {
+            return false;
+        }
+        if (map_t_to_s[t_char] == -1) {
+            map_t_to_s[t_char] = s_char;
+        } else if (map_t_to_s[t_char] != s_char) {
+            return false;
+        }
+    }
+
+    return true;
+    }
+};
