@@ -1,0 +1,35 @@
+class Solution {
+public:
+    int longestSubstring(string s, int k) {
+        int maxLen = 0;
+        int n = s.size();
+        for (int numUnique = 1; numUnique <= 26; ++numUnique) {
+            int start = 0, end = 0;
+            vector<int> freq(26, 0);
+            int uniqueCount = 0, countAtLeastK = 0;
+
+            while (end < n) {
+                if (uniqueCount <= numUnique) {
+                    int index = s[end] - 'a';
+                    if (freq[index] == 0) uniqueCount++;
+                    freq[index]++;
+                    if (freq[index] == k) countAtLeastK++;
+                    end++;
+                } else {
+                    int index = s[start] - 'a';
+                    if (freq[index] == k) countAtLeastK--;
+                    freq[index]--;
+                    if (freq[index] == 0) uniqueCount--;
+                    start++;
+                }
+
+                if (uniqueCount == numUnique && uniqueCount == countAtLeastK) {
+                    maxLen = max(maxLen, end - start);
+                }
+            }
+        }
+
+        return maxLen;
+    }
+
+};
