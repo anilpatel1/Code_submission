@@ -1,0 +1,32 @@
+class Solution {
+public:
+    string reorganizeString(string s) {
+         int n = s.length();
+        vector<int> count(26, 0);
+        for (char c : s) {
+            count[c - 'a']++;
+        }
+        int maxCount = *max_element(count.begin(), count.end());
+        int maxChar = max_element(count.begin(), count.end()) - count.begin();
+        if (maxCount > (n + 1) / 2) return "";
+        
+        string res(n, ' ');
+        int idx = 0;
+
+        while (count[maxChar] > 0) {
+            res[idx] = 'a' + maxChar;
+            idx += 2;
+            count[maxChar]--;
+        }
+        for (int i = 0; i < 26; i++) {
+            while (count[i] > 0) {
+                if (idx >= n) idx = 1;
+                res[idx] = 'a' + i;
+                idx += 2;
+                count[i]--;
+            }
+        }
+        
+        return res;
+    }
+};
