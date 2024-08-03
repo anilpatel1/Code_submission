@@ -7,3 +7,65 @@ public:
         return arr==target;
     }
 };
+
+//Find the Number of Winning Players
+class Solution {
+public:
+    int winningPlayerCount(int n, vector<vector<int>>& pick) {
+        unordered_map<int, unordered_map<int, int>> playerColorCount;
+        for (const auto& p : pick) {
+            int player = p[0];
+            int color = p[1];
+            playerColorCount[player][color]++;
+        }
+        
+        int winnerCount = 0;
+        for (int i = 0; i < n; ++i) {
+            for (const auto& colorCount : playerColorCount[i]) {
+                if (colorCount.second > i) {
+                    winnerCount++;
+                    break;
+                }
+            }
+        }
+        
+        return winnerCount;
+    }
+};
+
+//Minimum Number of Flips to Make Binary Grid Palindromic I
+class Solution {
+public:
+    int minFlips(vector<vector<int>>& grid) {
+        int m = grid.size();
+        int n = grid[0].size();
+        auto flipsToMakeRowPalindromic = [&](vector<int>& row) -> int {
+            int flips = 0;
+            int size = row.size();
+            for (int i = 0; i < size / 2; ++i) {
+                if (row[i] != row[size - i - 1]) {
+                    flips++;
+                }
+            }
+            return flips;
+        };
+        auto flipsToMakeColumnPalindromic = [&](vector<vector<int>>& grid, int col) -> int {
+            int flips = 0;
+            for (int i = 0; i < m / 2; ++i) {
+                if (grid[i][col] != grid[m - i - 1][col]) {
+                    flips++;
+                }
+            }
+            return flips;
+        };
+        int rowFlips = 0;
+        for (int i = 0; i < m; ++i) {
+            rowFlips += flipsToMakeRowPalindromic(grid[i]);
+        }
+        int columnFlips = 0;
+        for (int j = 0; j < n; ++j) {
+            columnFlips += flipsToMakeColumnPalindromic(grid, j);
+        }
+        return min(rowFlips, columnFlips);
+    }
+};
