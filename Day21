@@ -1,0 +1,46 @@
+//Design Neighbor Sum Service
+class neighborSum {
+    private:
+    vector<vector<int>> grid;
+    unordered_map<int, pair<int, int>> valuePositionMap;
+
+public:
+    neighborSum(vector<vector<int>>& grid) : grid(grid) {
+        int n = grid.size();
+        for (int i = 0; i < n; ++i) {
+            for (int j = 0; j < n; ++j) {
+                valuePositionMap[grid[i][j]] = {i, j};
+            }
+        }
+    }
+    int adjacentSum(int value) {
+        int sum = 0;
+        if (valuePositionMap.find(value) == valuePositionMap.end()) return sum;
+        auto [x, y] = valuePositionMap[value];
+        vector<pair<int, int>> directions = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
+        
+        for (auto [dx, dy] : directions) {
+            int newX = x + dx;
+            int newY = y + dy;
+            if (newX >= 0 && newX < grid.size() && newY >= 0 && newY < grid[0].size()) {
+                sum += grid[newX][newY];
+            }
+        }
+        return sum;
+    }
+    int diagonalSum(int value) {
+        int sum = 0;
+        if (valuePositionMap.find(value) == valuePositionMap.end()) return sum;
+        auto [x, y] = valuePositionMap[value];
+        vector<pair<int, int>> directions = {{-1, -1}, {-1, 1}, {1, -1}, {1, 1}};
+        
+        for (auto [dx, dy] : directions) {
+            int newX = x + dx;
+            int newY = y + dy;
+            if (newX >= 0 && newX < grid.size() && newY >= 0 && newY < grid[0].size()) {
+                sum += grid[newX][newY];
+            }
+        }
+        return sum;
+    }
+};
