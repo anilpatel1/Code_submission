@@ -1,0 +1,24 @@
+//Kth Distinct String in an Array
+class Solution {
+public:
+    string kthDistinct(vector<string>& arr, int k) {
+        int  n= arr.size();
+        vector<string>distr;
+        for(int i=0;i<n;i++){
+            bool isdistr = true;
+            for(int j=0;j<n;j++){
+                if(i!=j && arr[i]==arr[j]){
+                    isdistr = false;
+                    break;
+                }
+            }
+                if(isdistr){
+                    distr.push_back(arr[i]);
+                }
+        }
+            if(distr.size()<k){
+                return "";
+            }
+            return distr[k-1];
+    }
+};
