@@ -1,0 +1,32 @@
+class Solution {
+public:
+    string nearestPalindromic(string n) {
+        int len = n.size();
+        vector<long long> candidates;
+        candidates.push_back((long long)pow(10, len) + 1);
+        candidates.push_back((long long)pow(10, len - 1) - 1);
+        long long prefix = stoll(n.substr(0, (len + 1) / 2));
+        vector<long long> prefixes = {prefix - 1, prefix, prefix + 1};
+        for (long long p : prefixes) {
+            string palin = to_string(p);
+            string half = palin;
+            reverse(half.begin(), half.end());
+            if (len % 2 == 0) {
+                palin += half;
+            } else {
+                palin += half.substr(1);
+            }
+            candidates.push_back(stoll(palin));
+        }
+        long long original = stoll(n), closest = -1;
+        for (long long cand : candidates) {
+            if (cand == original) continue;
+            if (closest == -1 ||
+                abs(cand - original) < abs(closest - original) ||
+                (abs(cand - original) == abs(closest - original) && cand < closest)) {
+                closest = cand;
+            }
+        }
+        return to_string(closest);
+    }
+};
