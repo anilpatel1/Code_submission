@@ -1,0 +1,29 @@
+class Solution {
+public:
+    int robotSim(vector<int>& commands, vector<vector<int>>& obstacles) {
+        vector<vector<int>>dir={{0,1},{1,0},{0,-1},{-1,0}};
+        set<pair<int,int>>st;
+        for(auto x : obstacles){
+            st.insert({x[0],x[1]});
+        }
+        int k=0,ans=0,i=0,j=0;
+        for(auto x : commands){
+            if(x==-1){
+                k=(k+1)%4;
+            }
+            else if(x==-2){
+                k=(k+3)%4;
+            }
+            else{
+                while(x--){
+                    if(st.find({i+dir[k][0],j+dir[k][1]})!=st.end())
+                    break;
+                    i+=dir[k][0];
+                    j+=dir[k][1];
+                    ans=max(ans,(i*i+j*j));
+                }
+            }
+        }
+        return ans;
+    }
+};
