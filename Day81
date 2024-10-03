@@ -1,0 +1,31 @@
+class Solution {
+public:
+    int minSubarray(vector<int>& nums, int p) {
+      long long total_sum = 0;
+        for (int num : nums) {
+            total_sum += num;
+        }
+        
+        int target = total_sum % p;
+        if (target == 0) return 0;
+
+        unordered_map<int, int> prefix_mod_map;
+        prefix_mod_map[0] = -1;
+        long long prefix_sum = 0;
+        int min_len = nums.size();
+        
+        for (int i = 0; i < nums.size(); ++i) {
+            prefix_sum = (prefix_sum + nums[i]) % p;
+            int mod_to_find = (prefix_sum - target + p) % p;
+            
+            if (prefix_mod_map.find(mod_to_find) != prefix_mod_map.end()) {
+                int subarray_len = i - prefix_mod_map[mod_to_find];
+                min_len = min(min_len, subarray_len);
+            }
+            
+            prefix_mod_map[prefix_sum] = i;
+        }
+        
+        return (min_len == nums.size()) ? -1 : min_len;
+    }
+};
