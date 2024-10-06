@@ -1,0 +1,31 @@
+class Solution {
+public:
+    bool areSentencesSimilar(string sentence1, string sentence2) {
+         if (sentence1.size() > sentence2.size()) {
+            swap(sentence1, sentence2);
+        }
+
+        vector<string> words1, words2;
+        stringstream ss1(sentence1), ss2(sentence2);
+        string word;
+
+        while (ss1 >> word) {
+            words1.push_back(word);
+        }
+        
+        while (ss2 >> word) {
+            words2.push_back(word);
+        }
+
+        int i = 0, j = 0;
+        while (i < words1.size() && words1[i] == words2[i]) {
+            i++;
+        }
+
+        while (j < words1.size() && words1[words1.size() - 1 - j] == words2[words2.size() - 1 - j]) {
+            j++;
+        }
+
+        return i + j >= words1.size();
+    }
+};
