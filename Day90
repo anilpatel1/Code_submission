@@ -1,0 +1,50 @@
+#include<iostream>
+#include<vector>
+using namespace std;
+int firstPosition(vector<int>&nums,int key){
+    int n=nums.size();
+    int ans=-1;
+    int s=0;
+    int e=n-1;
+    for(int i=0;i<nums.size();i++){
+        int mid=(s+e)/2;
+        if(nums[mid]==key){
+            ans=mid;
+            e=mid-1;
+        }
+        else if(nums[mid]<key){
+            s=mid+1;
+        }
+        else{
+            e=mid-1;
+        }
+    }
+    return ans;
+}
+int lastPosition(vector<int>&nums,int key){
+    int n=nums.size();
+    int ans=-1;
+    int s=0;
+    int e=n-1;
+    for(int i=0;i<nums.size();i++){
+        int mid=(s+e)/2;
+        if(nums[mid]==key){
+            ans=mid;
+            s=mid+1;
+        }
+        else if(nums[mid]<key){
+            s=mid+1;
+        }
+        else{
+            e=mid-1;
+        }
+    }
+    return ans;
+}
+int main(){
+    vector<int>nums{10,20,30,30,30,40,50};
+    int key=30;
+    int firstIndex = firstPosition(nums,key);
+    int lastIndex= lastPosition(nums,key);
+    cout<<"firstPosition : "<<firstIndex<<","<<" lastPosition :"<<lastIndex<<endl;
+}
